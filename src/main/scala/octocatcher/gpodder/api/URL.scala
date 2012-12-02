@@ -154,5 +154,24 @@ object URL {
 
   // Device Sync
 
+  def pathToDevicesSync(username: String)(implicit format: Format): String = {
+    s"/api/2/sync-devices/${username}.${format}"
+  }
+
   // Podcast Lists
+
+  def pathToCreatePodcastList(username: String, listTitle: String)
+      (implicit format: Format): String = {
+    s"/api/2/lists/${username}/create.${format}?title=${listTitle}"
+  }
+
+  def pathToListOfPodcastLists(username: String)
+      (implicit format: Format): String = {
+    s"/api/2/lists/${username}.${format}"
+  }
+
+  def pathToPodcastList(username: String, listTitle: String)
+      (implicit format: Format): String = {
+    s"/api/2/lists/${username}/list/${listTitle}.${format}"
+  }
 }
