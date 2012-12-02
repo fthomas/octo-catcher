@@ -31,7 +31,7 @@ object URL {
   }
 
   def pathToPodcastsForTag(tag: String, count: Int)
-                          (implicit format: Format): String = {
+      (implicit format: Format): String = {
     s"/api/2/tag/${tag}/${count}.${format}"
   }
 
@@ -40,7 +40,7 @@ object URL {
   }
 
   def pathToEpisodeData(podcastUrl: String, episodeUrl: String)
-                       (implicit format: Format): String = {
+      (implicit format: Format): String = {
     s"/api/2/data/episode.${format}?podcast=${podcastUrl}&url=${episodeUrl}"
   }
 
@@ -57,4 +57,102 @@ object URL {
   def pathToSuggestions(count: Int)(implicit format: Format): String = {
     s"/suggestions/${count}.${format}"
   }
+
+  // Subscriptions
+
+  def pathToSubscriptionsForDevice(username: String, deviceId: String)
+      (implicit format: Format): String = {
+    s"/subscriptions/${username}/${deviceId}.${format}"
+  }
+
+  def pathToSubscriptions(username: String)
+      (implicit format: Format): String = {
+    s"/subscriptions/${username}.${format}"
+  }
+
+  def pathToUploadSubscriptions(username: String, deviceId: String)
+      (implicit format: Format): String = {
+    s"/subscriptions/${username}/${deviceId}.${format}"
+  }
+
+  def pathToUploadSubscriptionsChanges(username: String, deviceId: String)
+      (implicit format: Format): String = {
+    s"/api/2/subscriptions/${username}/${deviceId}.${format}"
+  }
+
+  def pathToSubscriptionsChanges(username: String, deviceId: String,
+      timestamp: String)(implicit format: Format): String = {
+    s"/api/2/subscriptions/${username}/${deviceId}.${format}?since=${timestamp}"
+  }
+
+  // Episode Actions
+
+  def pathToUploadEpisodeActions(username: String)
+      (implicit format: Format): String = {
+    s"/api/2/episodes/${username}.${format}"
+  }
+
+  def pathToGetEpisodeActions(username: String)
+      (implicit format: Format): String = {
+    s"/api/2/episodes/${username}.${format}"
+  }
+
+  // Devices
+
+  def pathToDeviceConfiguration(username: String, deviceId: String)
+      (implicit format: Format): String = {
+    s"/api/2/devices/${username}/${deviceId}.${format}"
+  }
+
+  def pathToDevicesList(username: String)(implicit format: Format): String = {
+    s"/api/2/devices/${username}.${format}"
+  }
+
+  def pathToDeviceUpdates(username: String, deviceId: String,
+      timestamp: String)(implicit format: Format): String = {
+    s"/api/2/updates/${username}/${deviceId}.${format}?since=${timestamp}"
+  }
+
+  // Settings
+
+  def pathToAccountSettings(username: String)
+      (implicit format: Format): String = {
+    s"/api/2/settings/${username}/account.${format}"
+  }
+
+  def pathToDeviceSettings(username: String, deviceId: String)
+      (implicit format: Format): String = {
+    s"/api/2/settings/${username}/device.${format}?device=${deviceId}"
+  }
+
+  def pathToPodcastSettings(username: String, podcastUrl: String)
+      (implicit format: Format): String = {
+    s"/api/2/settings/${username}/podcast.${format}?podcast=${podcastUrl}"
+  }
+
+  def pathToEpisodeSettings(username: String, podcastUrl: String,
+      episodeUrl: String)(implicit format: Format): String = {
+    s"/api/2/settings/${username}/episode.${format}" +
+      s"?podcast=${podcastUrl}&episode=${episodeUrl}"
+  }
+
+  // Favorites
+
+  def pathToFavorites(username: String)(implicit format: Format): String = {
+    s"/api/2/favorites/${username}.${format}"
+  }
+
+  // Authentication
+
+  def pathToLogin(username: String)(implicit format: Format): String = {
+    s"/api/2/auth/${username}/login.${format}"
+  }
+
+  def pathToLogout(username: String)(implicit format: Format): String = {
+    s"/api/2/auth/${username}/logout.${format}"
+  }
+
+  // Device Sync
+
+  // Podcast Lists
 }
