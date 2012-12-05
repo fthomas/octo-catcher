@@ -12,25 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package octocatcher
+package octocatcher.gpodder
 
-import scala.concurrent.Future
-import akka.actor.{ActorRef, Props}
-import spray.client.HttpConduit;
-import spray.http._
-import spray.http.HttpMethods._
-
-package object gpodder {
-  val (hostname, port) = ("gpodder.net", 443)
-
-  def makeHttpsConduit() = {
-    actorSystem.actorOf(
-      Props(new HttpConduit(httpClient, hostname, port, sslEnabled = true)))
-  }
-
-  lazy val pipeline = HttpConduit.sendReceive(makeHttpsConduit())
-
-  def getUrl(url: String): Future[HttpResponse] = {
-    pipeline(HttpRequest(GET, url))
-  }
+package object api {
+  implicit val defaultFormat = URL.JSON
 }

@@ -39,4 +39,6 @@ object JSONOps {
 
   def toJSONObject(response: HttpResponse): Map[String, Any] =
     parseFullObject(response.entity.asString)
+    
+  // parseFull String -> Option[Any]
 }

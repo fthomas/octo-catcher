@@ -35,8 +35,8 @@ object URL {
     s"/api/2/tag/${tag}/${count}.${format}"
   }
 
-  def pathToPodcastData(url: String)(implicit format: Format): String = {
-    s"/api/2/data/podcast.${format}?url=${url}"
+  def pathToPodcastData(podcastUrl: String)(implicit format: Format): String = {
+    s"/api/2/data/podcast.${format}?url=${podcastUrl}"
   }
 
   def pathToEpisodeData(podcastUrl: String, episodeUrl: String)
