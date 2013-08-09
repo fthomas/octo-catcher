@@ -15,5 +15,5 @@
 package octocatcher.gpodder
 
 package object api {
-  implicit val defaultFormat = JSON
+  implicit val defaultResourceFormat = JSON
 }

@@ -1,4 +1,4 @@
-// Copyright 2012 Frank S. Thomas
+// Copyright 2012-2013 Frank S. Thomas
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,63 +15,67 @@
 package octocatcher.gpodder.api
 
 import octocatcher.gpodder._
+import GpodderJsonProtocol._
 
 import scala.concurrent.Future
-import spray.http.HttpResponse
+import spray.httpx.SprayJsonSupport._
 
 object Directory {
-  /** Returns the `count` most used tags.
+  /**
+   * Returns the `count` most used tags.
    * @see [[http://wiki.gpodder.org/wiki/Web_Services/API_2/Directory#Retrieve_Top_Tags Retrieve Top Tags]]
    */
-  def getTopTags(count: Int): Future[HttpResponse] = {
+  def getTopTags(count: Int): Future[List[TagUsage]] = {
     require(count >= 0)
 
-    getUrl(URL.pathToTopTags(count))
+    getUriUnmarshalled[List[TagUsage]](URL.pathToTopTags(count))
   }
 
-  /** Returns the `count` most-subscribed podcasts that are tagged with `tag`.
+  /**
+   * Returns the `count` most-subscribed podcasts that are tagged with `tag`.
    * @see [[http://wiki.gpodder.org/wiki/Web_Services/API_2/Directory#Retrieve_Podcasts_for_Tag Retrieve Podcasts for Tag]]
    */
-  def getPodcastsForTag(tag: String, count: Int): Future[HttpResponse] = {
+  def getPodcastsForTag(tag: String, count: Int): Future[List[PodcastData]] = {
     require(tag.length > 0 && count > 0)
 
-    getUrl(URL.pathToPodcastsForTag(tag, count))
+    getUriUnmarshalled[List[PodcastData]](URL.pathToPodcastsForTag(tag, count))
   }
 
-  /** Returns information for the podcast with the given URL.
+  /**
+   * Returns information for the podcast with the given URL.
    * @see [[http://wiki.gpodder.org/wiki/Web_Services/API_2/Directory#Retrieve_Podcast_Data Retrieve Podcast Data]]
    */
-  def getPodcastData(podcastUrl: String): Future[HttpResponse] = {
+  def getPodcastData(podcastUrl: String): Future[PodcastData] = {
     require(podcastUrl.length > 0)
 
-    getUrl(URL.pathToPodcastData(podcastUrl))
+    getUriUnmarshalled[PodcastData](URL.pathToPodcastData(podcastUrl))
   }
 
   /** Returns information for an episode of a podcast.
    * [[http://wiki.gpodder.org/wiki/Web_Services/API_2/Directory#Retrieve_Episode_Data Retrieve Episode Data]]
    */
-  def getEpisodeData(podcastUrl: String, episodeUrl: String):
+  /*def getEpisodeData(podcastUrl: String, episodeUrl: String):
       Future[HttpResponse] = {
     require(podcastUrl.length > 0 && episodeUrl.length > 0)
 
     getUrl(URL.pathToEpisodeData(podcastUrl, episodeUrl))
-  }
+  }*/
 
   /** Returns the `count` most-popular podcasts in descending order.
    * [[http://wiki.gpodder.org/wiki/Web_Services/API_2/Directory#Podcast_Toplist Podcast Toplist]]
    */
-  def getToplist(count: Int): Future[HttpResponse] = {
+  /*def getToplist(count: Int): Future[HttpResponse] = {
     require(1 to 100 contains count)
 
     getUrl(URL.pathToToplist(count))
-  }
+  }*/
 
   /** Returns search results for podcasts that match the given query.
    * [[http://wiki.gpodder.org/wiki/Web_Services/API_2/Directory#Podcast_Search Podcast Search]]
    */
-  def searchPodcasts(query: String): Future[HttpResponse] = {
+  /*def searchPodcasts(query: String): Future[HttpResponse] = {
     require(query.length > 0)
 
     getUrl(URL.pathToSearch(query))
-  }
+  }*/
 }

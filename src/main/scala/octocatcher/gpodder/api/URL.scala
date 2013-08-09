@@ -15,8 +15,6 @@
 package octocatcher.gpodder.api
 
 object URL {
-  val hostname = "gpodder.net"
-
   // Directory:
 
   def pathToTopTags(count: Int)(implicit format: ResourceFormat): String = {

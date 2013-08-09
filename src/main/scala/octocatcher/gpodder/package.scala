@@ -14,23 +14,28 @@
 
 package octocatcher
 
+import akka.actor.Props
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import akka.actor.{ActorRef, Props}
-import spray.client.HttpConduit;
-import spray.http._
-import spray.http.HttpMethods._
+import spray.client.HttpConduit
+import spray.client.HttpConduit._
+import spray.http.HttpResponse
+import spray.httpx.unmarshalling.Unmarshaller
 
 package object gpodder {
   val (hostname, port) = ("gpodder.net", 443)
 
-  def makeHttpsConduit() = {
-    actorSystem.actorOf(
-      Props(new HttpConduit(httpClient, hostname, port, sslEnabled = true)))
+  def makeHttpsConduit() = actorSystem.actorOf(
+    Props(new HttpConduit(httpClient, hostname, port, sslEnabled = true)))
+
+  lazy val defaultPipeline = sendReceive(makeHttpsConduit())
+
+  def getUri(uri: String): Future[HttpResponse] = {
+    defaultPipeline(Get(uri))
   }
 
-  lazy val pipeline = HttpConduit.sendReceive(makeHttpsConduit())
-
-  def getUrl(url: String): Future[HttpResponse] = {
-    pipeline(HttpRequest(GET, url))
+  def getUriUnmarshalled[A : Unmarshaller](uri: String): Future[A] = {
+    val pipeline = defaultPipeline ~> unmarshal[A]
+    pipeline(Get(uri))
   }
 }
